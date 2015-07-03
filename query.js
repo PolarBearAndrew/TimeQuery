@@ -80,25 +80,25 @@ class Query{
 		console.log('time route ', this.TimeRoute);
 	}
 
-	push( job ){
-		//set key id
-		let d = new Date();
-		let key = d.getTime() * Math.random();;
+	// push( job ){
+	// 	//set key id
+	// 	let d = new Date();
+	// 	let key = d.getTime() * Math.random();;
 
-		//push
-		this.List[key] = { job };
+	// 	//push
+	// 	this.List[key] = { job };
 
-		//link
-		if(this.Keys.last){
-			this.List[this.Keys.last].next = key;
-		}
-		this.Keys.last = key;
+	// 	//link
+	// 	if(this.Keys.last){
+	// 		this.List[this.Keys.last].next = key;
+	// 	}
+	// 	this.Keys.last = key;
 
-		//set route
-		this.setInRouter(key, job.timeout);
+	// 	//set route
+	// 	this.setInRouter(key, job.timeout);
 
-		return key;
-	}
+	// 	return key;
+	// }
 
 
 	//auto inset on right position
