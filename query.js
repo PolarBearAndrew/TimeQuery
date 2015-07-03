@@ -8,21 +8,34 @@ class Query{
 		this.Keys = {
 			first : '',
 			last : ''
-		}
+		};
+
+		this.TimeRoute =[
+			{ sec : 1000, last : '', },
+			{ sec : 2000, last : '', },
+			{ sec : 3000, last : '', },
+			{ sec : 5000, last : '', },
+			{ sec : 8000, last : '', },
+			{ sec : 13000, last : '', } ];
+	}
+
+	setInRouter(id, time){
+		this.TimeRoute.map(function(data){
+			if( time == data.sec )
+				data.last = id;
+		});
 	}
 
 	show(){
 		console.log('Query data', this.List);
 		console.log('Key data ', this.Keys);
+		console.log('time route ', this.TimeRoute);
 	}
 
 	push(job){
-
 		//set key id
 		let d = new Date();
 		let key = d.getTime() * Math.random();;
-
-		//console.log('key', key);
 
 		//push
 		this.List[key] = { job };
@@ -32,6 +45,11 @@ class Query{
 			this.List[this.Keys.last].next = key;
 		}
 		this.Keys.last = key;
+
+		//set route
+		this.setInRouter(key, job.timeout);
+
+		return key;
 	}
 
 }
