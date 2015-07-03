@@ -4,17 +4,32 @@ var list = [];
 class Query{
 
 	constructor(){
-		this.list = [];
+		this.list = {};
 	}
 
 	show(){
-		console.log("list->", this.list);
+		console.log("Query Data", this.list);
 	}
 
-	add(str){
-		this.list.push(str);
+	add(key, job){
+		this.list[key] = { job };
 	}
 
 }
 
-module.exports = Query;
+class Job{
+
+	constructor(){
+		this.timeout = 0;
+		this.todo;
+		this.next = "";
+	}
+
+	constructor(time, func){
+		this.timeout = time;
+		this.todo = func;
+		this.next;
+	}
+}
+
+module.exports ={ Query, Job };
