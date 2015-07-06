@@ -18,69 +18,69 @@ class Query{
 	}
 
 	//set some id in router
-	setInRouter(id, time){
-		this.TimeRoute.map(function(data){
-			if( time == data.sec )
-				data.last = id;
-		});
-	}
+	// setInRouter(id, time){
+	// 	this.TimeRoute.map(function(data){
+	// 		if( time == data.sec )
+	// 			data.last = id;
+	// 	});
+	// }
 
 	//auto inset some job in List, with sort
-	autoRouting(id, time){
+	// autoRouting(id, time){
 
-		let lastID = 0;
+	// 	let lastID = 0;
 
-		for (var i = this.TimeRoute.length - 1; i >= 0; i--) {
+	// 	for (var i = this.TimeRoute.length - 1; i >= 0; i--) {
 
-			if(this.TimeRoute[i].sec < time){
+	// 		if(this.TimeRoute[i].sec < time){
 
-				lastID = this.TimeRoute[i].last;
-				break;
+	// 			lastID = this.TimeRoute[i].last;
+	// 			break;
 
-			}else if(this.TimeRoute[i].sec == time){
+	// 		}else if(this.TimeRoute[i].sec == time){
 
-				this.TimeRoute[i].last = id;
-				lastID = this.TimeRoute[i].last;
-				break;
-			}
-		};
+	// 			this.TimeRoute[i].last = id;
+	// 			lastID = this.TimeRoute[i].last;
+	// 			break;
+	// 		}
+	// 	};
 
-		if( ! lastID ){
-			lastID = this.Keys.first;
-		}
+	// 	if( ! lastID ){
+	// 		lastID = this.Keys.first;
+	// 	}
 
 
-		this.autoRoutingSet(id, time, lastID);
-	}
+	// 	this.autoRoutingSet(id, time, lastID);
+	// }
 
-	//recursive
-	autoRoutingSet(id, time, lastOneID){
+	// //recursive
+	// autoRoutingSet(id, time, lastOneID){
 
-		console.log('this.List[lastOneID]', this.List[lastOneID], lastOneID)
+	// 	console.log('this.List[lastOneID]', this.List[lastOneID], lastOneID)
 
-		var nextID = this.List[lastOneID].job.next;
+	// 	var nextID = this.List[lastOneID].job.next;
 
-		if( ! nextID ){
+	// 	if( ! nextID ){
 
-			this.List[lastOneID].job.next = id;
-			this.Keys.last = id;
+	// 		this.List[lastOneID].job.next = id;
+	// 		this.Keys.last = id;
 
-			return;
-		}
+	// 		return;
+	// 	}
 
-		var nextOneTime = this.List[nextID].timeout;
+	// 	var nextOneTime = this.List[nextID].timeout;
 
-		if( nextOneTime > time ){
+	// 	if( nextOneTime > time ){
 
-			this.List[lastOneID].job.next = id;
-			this.List[id].next = nextID;
+	// 		this.List[lastOneID].job.next = id;
+	// 		this.List[id].next = nextID;
 
-			return;
+	// 		return;
 
-		}else{
-			autoRoutingSet(id, time, nextID);
-		}
-	}
+	// 	}else{
+	// 		autoRoutingSet(id, time, nextID);
+	// 	}
+	// }
 
 	// push( job ){
 	// 	//set key id
