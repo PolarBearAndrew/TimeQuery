@@ -6,15 +6,15 @@ class Query{
 	//init
 	constructor(){
 		this.List = {};
-		this.Keys = { first : '', last : '', };
+		this.Flags = { head : '', tail : '', };
 
-		this.TimeRoute =[
-			{ sec : 1000, last : '', },
-			{ sec : 2000, last : '', },
-			{ sec : 3000, last : '', },
-			{ sec : 5000, last : '', },
-			{ sec : 8000, last : '', },
-			{ sec : 13000, last : '', } ];
+		this.FlagRouter =[
+			{ sec : 1000, lastOneID : '', },
+			{ sec : 2000, lastOneID : '', },
+			{ sec : 3000, lastOneID : '', },
+			{ sec : 5000, lastOneID : '', },
+			{ sec : 8000, lastOneID : '', },
+			{ sec : 13000, lastOneID : '', } ];
 	}
 
 	//set some id in router
@@ -104,28 +104,49 @@ class Query{
 
 
 	//auto inset on right position
+	// add( job ){
+	// 	//set key id
+	// 	let d = new Date();
+	// 	let key = d.getTime() * Math.random();;
+
+	// 	//link
+	// 	if( ! this.Keys.first ){
+	// 		this.Keys.first = key;
+	// 		this.Keys.last = key;
+
+	// 	}else{
+	// 		this.autoRouting(key, job.timeout)
+	// 	}
+
+	// 	//push
+	// 	this.List[key] = { job };
+
+	// 	//set route
+	// 	this.setInRouter(key, job.timeout);
+
+	// 	return key;
+	// }
+
 	add( job ){
 		//set key id
 		let d = new Date();
-		let key = d.getTime() * Math.random();;
+		let myKey = d.getTime() * Math.random();;
 
-		//link
-		if( ! this.Keys.first ){
-			this.Keys.first = key;
-			this.Keys.last = key;
+		if( ! this.Flags.head ){
+			this.Flags.head = myKey;
+			this.Flags.tail = myKey;
 
 		}else{
-			this.autoRouting(key, job.timeout)
+			this.List[this.Flags.tail].next = myKey
+			this.Flags.tail = myKey;
 		}
 
-		//push
-		this.List[key] = { job };
+		//push job to query
+		this.List[myKey] = { timeOut: job.timeOut, todo:job.todo, next:job.next };
 
-		//set route
-		this.setInRouter(key, job.timeout);
 
-		return key;
 	}
+
 
 	show(){
 		console.log('Query data', this.List);
@@ -157,13 +178,13 @@ class Query{
 class Job{
 
 	constructor(){
-		this.timeout = 0;
+		this.timeOut = 0;
 		this.todo;
 		this.next = '';
 	}
 
 	constructor(time, func){
-		this.timeout = time;
+		this.timeOut = time;
 		this.todo = func;
 		this.next = '';
 	}
