@@ -3,7 +3,7 @@ var Job = require("./query.js").Job;
 
 var timeQuery = new Query();
 
-timeQuery.add( new Job( 3000, function(){
+timeQuery.add( new Job( 5000, function(){
 	console.log('job 1 !!');
 }));
 
