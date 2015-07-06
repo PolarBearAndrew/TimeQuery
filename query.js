@@ -31,6 +31,7 @@ class Query{
 		let lastID = 0;
 
 		for (var i = this.TimeRoute.length - 1; i >= 0; i--) {
+
 			if(this.TimeRoute[i].sec < time){
 
 				lastID = this.TimeRoute[i].last;
@@ -44,13 +45,20 @@ class Query{
 			}
 		};
 
+		if( ! lastID ){
+			lastID = this.Keys.first;
+		}
+
+
 		this.autoRoutingSet(id, time, lastID);
 	}
 
 	//recursive
 	autoRoutingSet(id, time, lastOneID){
 
-		var nextID = this.List[lastOneID].next;
+		console.log('this.List[lastOneID]', this.List[lastOneID], lastOneID)
+
+		var nextID = this.List[lastOneID].job.next;
 
 		if( ! nextID ){
 
@@ -72,12 +80,6 @@ class Query{
 		}else{
 			autoRoutingSet(id, time, nextID);
 		}
-	}
-
-	show(){
-		console.log('Query data', this.List);
-		console.log('Key data ', this.Keys);
-		console.log('time route ', this.TimeRoute);
 	}
 
 	// push( job ){
@@ -107,16 +109,47 @@ class Query{
 		let d = new Date();
 		let key = d.getTime() * Math.random();;
 
+		//link
+		if( ! this.Keys.first ){
+			this.Keys.first = key;
+			this.Keys.last = key;
+
+		}else{
+			this.autoRouting(key, job.timeout)
+		}
+
 		//push
 		this.List[key] = { job };
 
-		//link
-		this.autoRouting(key, job.timeout)
-
 		//set route
-		//this.setInRouter(key, job.timeout);
+		this.setInRouter(key, job.timeout);
 
 		return key;
+	}
+
+	show(){
+		console.log('Query data', this.List);
+		console.log('Key data ', this.Keys);
+		console.log('time route ', this.TimeRoute);
+	}
+
+	read(){
+
+		this.readRecursive(this.Keys.first);
+
+
+	}
+
+	readRecursive( key ){
+
+		console.log(key, this.List[key].job.timeout);
+
+		if( this.List[key].job.next ){
+			this.readRecursive(this.List[key].job.next);
+		}else{
+			console.log('--FINISH--');
+			return;
+		}
 	}
 
 }
