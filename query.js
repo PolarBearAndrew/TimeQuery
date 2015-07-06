@@ -23,10 +23,19 @@ class Query{
 		let myKey = d.getTime() * Math.random();;
 
 		if( ! this.Endpoint.head ){
+
+			//init Endpoint
 			this.Endpoint.head = myKey;
 			this.Endpoint.tail = myKey;
 
+			//init Flags
+			this.Flags.map(function(info){
+				return info.previous = myKey;
+			});
+
 		}else{
+
+			//這邊有問題 需要改
 			this.List[this.Endpoint.tail].next = myKey
 			this.Endpoint.tail = myKey;
 		}
@@ -50,9 +59,13 @@ class Query{
 					this.List[this.Flags[i].last].next = key;
 					this.Flags[i].last = key;
 
+				}else if( this.Flags[i].previous ){
+
+					this.List[this.Flags[i].previous].next = key;
+					this.Flags[i].last = key;
+
 				}else{
 
-					this.Flags[i].last = key;
 				}
 			}
 		};

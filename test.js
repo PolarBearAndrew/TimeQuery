@@ -8,30 +8,30 @@ timeQuery.add( new Job( 5000, function(){
 }));
 
 
-timeQuery.add( new Job( 2000, function(){
-	console.log('job 2 !!');
-}));
+// timeQuery.add( new Job( 2000, function(){
+// 	console.log('job 2 !!');
+// }));
 
-timeQuery.add( new Job( 2000, function(){
-	console.log('job 2 !!');
-}));
+// timeQuery.add( new Job( 2000, function(){
+// 	console.log('job 2 !!');
+// }));
 
-timeQuery.add( new Job( 3000, function(){
-	console.log('job 3 !!');
-}));
+// timeQuery.add( new Job( 3000, function(){
+// 	console.log('job 3 !!');
+// }));
 
-timeQuery.add( new Job( 3000, function(){
-	console.log('job 4 !!');
-}));
+// timeQuery.add( new Job( 3000, function(){
+// 	console.log('job 4 !!');
+// }));
 
-timeQuery.add( new Job( 3000, function(){
-	console.log('job 5 !!');
-}));
+// timeQuery.add( new Job( 3000, function(){
+// 	console.log('job 5 !!');
+// }));
 
 
-timeQuery.add( new Job( 2000, function(){
-	console.log('job 5 !!');
-}));
+// timeQuery.add( new Job( 2000, function(){
+// 	console.log('job 5 !!');
+// }));
 
 // timeQuery.add('B', 'dataB')
 
