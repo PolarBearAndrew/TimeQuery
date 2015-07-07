@@ -29,11 +29,16 @@ class Query{
 			this.Endpoint.tail = myKey;
 
 			//init Flags
-			this.Flags.map(function(info){
-				return info.previous = myKey;
-			});
+			//不能這樣處理, 這樣會導致後面要更新previos key的時候不知道誰前誰後
+
+			// this.Flags.map(function(info, index){
+			// 	if(index != 0 && info.flagTime > job.timeOut )
+			// 		return info.previous = myKey;
+			// });
 
 		}else{
+
+			this.router( myKey, job.timeOut );
 
 			//這邊有問題 需要改
 			this.List[this.Endpoint.tail].next = myKey
@@ -66,7 +71,20 @@ class Query{
 
 				}else{
 
+					this.Endpoint.head = key;
+					this.Flags[i].last = key;
 				}
+
+				break;
+
+			}else if( this.Flags[i].flagTime < timeOut ){
+
+			}
+
+			if( i+2 < this.Flags.length ){
+				this.Flags[i+1].previous = key;
+			}else{
+
 			}
 		};
 	}
