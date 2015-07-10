@@ -55,20 +55,22 @@ class Query{
 		for (var i = this.Flags.length - 1; i >= 0; i--) {
 
 
+			//這個func需要處理一下
+			let findLastKey = ( index ) => {
+
+				if( this.Flags[index].last )
+					return this.Flags[index].last;
+
+				else if ( index > 0 )
+					return findLastKey( index - 1 );
+
+				else
+					return this.Endpoint.head;
+			};
+
+
 
 			if( this.Flags[i].flagTime == current.timeOut ){
-
-				let findLastKey = ( index ) => {
-
-					if( this.Flags[index].last )
-						return this.Flags[index].last;
-
-					else if ( index > 0 )
-						return findLastKey( index - 1 );
-
-					else
-						return this.Endpoint.head;
-				};
 
 				let lastKey = findLastKey(i);
 
@@ -98,7 +100,36 @@ class Query{
 				break;
 
 			}else if ( this.Flags[i].flagTime < current.timeOut ){
-				i--;
+
+				let lastKey = findLastKey(i);
+
+				let findPosition = ( k ) => {
+
+					if( ! this.List[k].next)
+						return this.Endpoint.tail;
+
+					else if( this.List[k].timeOut > current.timeOut )
+						return this.List[k].previous
+
+					else if ( this.List[k].timeOut <= current.timeOut)
+						return findPosition( this.List[k].next );
+
+				};
+
+				let last = this.List[findPosition(lastKey)];
+
+				//link list
+				current.next = last.next;
+				current.previous = lastKey;
+
+				last.next = key;
+
+				if(current.next)
+					this.List[ current.next ].previous = key;
+				else
+					this.Endpoint.tail = key;
+
+
 			}
 		};
 	}
