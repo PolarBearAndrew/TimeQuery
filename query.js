@@ -95,6 +95,9 @@ class Query{
 					else
 						this.Endpoint.tail = key;
 
+
+					this.Flags[i].last = key;
+
 				}
 
 				break;
@@ -129,6 +132,7 @@ class Query{
 				else
 					this.Endpoint.tail = key;
 
+				break;
 
 			}
 		};
