@@ -48,31 +48,31 @@ class Query{
 
 	}
 
+	findLastKey(index){
+
+		if( this.Flags[index].last )
+			return this.Flags[index].last;
+
+		else if ( index > 0 )
+			return this.findLastKey( index - 1 );
+
+		else
+			return this.Endpoint.head;
+	}
+
 	router( key ){
 
+		//現在要插入的key
 		let current = this.List[key];
 
+		//有辦法改成func?
 		for (var i = this.Flags.length - 1; i >= 0; i--) {
 
-
 			//這個func需要處理一下
-			let findLastKey = ( index ) => {
-
-				if( this.Flags[index].last )
-					return this.Flags[index].last;
-
-				else if ( index > 0 )
-					return findLastKey( index - 1 );
-
-				else
-					return this.Endpoint.head;
-			};
-
-
 
 			if( this.Flags[i].flagTime == current.timeOut ){
 
-				let lastKey = findLastKey(i);
+				let lastKey = this.findLastKey(i);
 
 				let last = this.List[lastKey];
 
@@ -104,7 +104,7 @@ class Query{
 
 			}else if ( this.Flags[i].flagTime < current.timeOut ){
 
-				let lastKey = findLastKey(i);
+				let lastKey = this.findLastKey(i);
 
 				let findPosition = ( k ) => {
 
@@ -138,12 +138,10 @@ class Query{
 		};
 	}
 
+	//using in debug
 	// show(){
-
 	// 	console.log('Query data', this.List);
-
 	// 	console.log('Endpoint data ', this.Endpoint);
-
 	// 	console.log('Flags data ', this.Flags);
 	// }
 
@@ -171,7 +169,6 @@ class Query{
 			readList( this.Endpoint.head );
 
 			return data;
-
 		}
 
 	}
