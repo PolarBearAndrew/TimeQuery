@@ -1,7 +1,7 @@
 
 var list = [];
 
-class Query{
+class TimeQuery{
 
 	//init
 	constructor(){
@@ -148,7 +148,6 @@ class Query{
 	readAll( sort ){
 
 		if( ! sort){
-
 			return this.List;
 
 		}else{
@@ -161,15 +160,54 @@ class Query{
 
 				if( this.List[key].next )
 					readList( this.List[key].next );
-
 				else
 					return;
 			};
 
 			readList( this.Endpoint.head );
-
 			return data;
 		}
+
+	}
+
+	do( current, now ){
+
+		if(current.timeOut <= now){
+
+			console.log( current.callback, now );
+
+			if( current.next ){
+
+				current = this.List[ current.next ];
+
+				return this.do( current, now );
+
+			}else{
+
+				console.log('finish');
+				return false;
+			}
+		}else{
+
+			return current;
+		}
+	}
+
+	start(){
+
+		let current;
+		let time = 0;
+
+		if( time == 0 )
+			current = this.List[this.Endpoint.head];
+
+		setInterval( () => {
+
+			current = this.do( current, time );
+
+			time += 100;
+
+		}, 100);
 
 	}
 
@@ -192,4 +230,4 @@ class Job{
 	}
 }
 
-module.exports ={ Query, Job };
+module.exports ={ TimeQuery, Job };
