@@ -3,7 +3,8 @@ A time query for node.js.
 
 If you need to use a lot of 'setTimeout' function. Use TimeQuery to reduce your server's load. TimeQuery only need one 'setInterval' function to imitate all 'setTimeout'.
 
-How to start demo, you can see a simple demo
+How to start demo?
+You can see a simple demo
 
 ```
 babel-node demo.js
