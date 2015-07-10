@@ -1,7 +1,5 @@
 
-var list = [];
-
-class TimeQuery{
+class Query{
 
 	//init
 	constructor(){
@@ -84,6 +82,7 @@ class TimeQuery{
 					this.Endpoint.head = key;
 					current.next = lastKey;
 					last.previous = key;
+					this.Flags[i].last = key;
 
 				}else{
 
@@ -142,11 +141,11 @@ class TimeQuery{
 	}
 
 	//using in debug
-	// show(){
-	// 	console.log('Query data', this.List);
-	// 	console.log('Endpoint data ', this.Endpoint);
-	// 	console.log('Flags data ', this.Flags);
-	// }
+	showAllData(){
+		console.log('Query data', this.List);
+		console.log('Endpoint data ', this.Endpoint);
+		console.log('Flags data ', this.Flags);
+	}
 
 	readAll( sort ){
 
@@ -177,27 +176,24 @@ class TimeQuery{
 
 		if(current.timeOut <= now){
 
-			console.log( current.callback, now );
+			current.callback();
 
 			if( current.next ){
 
 				current = this.List[ current.next ];
-
 				return this.do( current, now );
 
 			}else{
 
 				clearInterval(this.engin);
-				console.log('finish');
-				return false;
+				console.log('-----finish-----');
 			}
 		}else{
-
 			return current;
 		}
 	}
 
-	start(){
+	start( ctrlTick ){
 
 		let current;
 		let time = 0;
@@ -207,7 +203,8 @@ class TimeQuery{
 
 		this.engin = setInterval( () => {
 
-			//console.log('tick');
+			if( ctrlTick )
+				console.log('tick');
 
 			current = this.do( current, time );
 
@@ -236,4 +233,4 @@ class Job{
 	}
 }
 
-module.exports ={ TimeQuery, Job };
+module.exports ={ Query, Job };
