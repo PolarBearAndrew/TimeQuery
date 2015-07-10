@@ -138,13 +138,42 @@ class Query{
 		};
 	}
 
-	show(){
+	// show(){
 
-		console.log('Query data', this.List);
+	// 	console.log('Query data', this.List);
 
-		console.log('Endpoint data ', this.Endpoint);
+	// 	console.log('Endpoint data ', this.Endpoint);
 
-		console.log('Flags data ', this.Flags);
+	// 	console.log('Flags data ', this.Flags);
+	// }
+
+	readAll( sort ){
+
+		if( ! sort){
+
+			return this.List;
+
+		}else{
+
+			let data = [];
+
+			let readList = ( key ) => {
+
+				data.push( this.List[key] );
+
+				if( this.List[key].next )
+					readList( this.List[key].next );
+
+				else
+					return;
+			};
+
+			readList( this.Endpoint.head );
+
+			return data;
+
+		}
+
 	}
 
 }
