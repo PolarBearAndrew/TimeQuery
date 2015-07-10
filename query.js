@@ -74,8 +74,6 @@ class Query{
 				}else{
 
 					//繼續找previous key
-					// this.Endpoint.head = key;
-					// this.Flags[i].last = key;
 					let findPreviousKey = ( index ) => {
 
 						if(this.Flags[index].previous)
@@ -92,7 +90,7 @@ class Query{
 					if(previousKey)
 						this.List[previous].next = key;
 					else
-						console.log('error, can not found previousKey')
+						this.Endpoint.head = key;
 
 					this.Flags[i].last = key;
 
