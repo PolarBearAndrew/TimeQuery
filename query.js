@@ -8,6 +8,8 @@ class Query{
 		this.List = {};
 		this.Endpoint = { head : '', tail : '', };
 
+
+		//或許該新增自訂旗標的功能
 		this.Flags =[
 			{ flagTime : 1000, last : '', previous : '' },
 			{ flagTime : 2000, last : '', previous : '' },
@@ -41,8 +43,8 @@ class Query{
 			this.router( myKey, job.timeOut );
 
 			//這邊有問題 需要改
-			this.List[this.Endpoint.tail].next = myKey
-			this.Endpoint.tail = myKey;
+			// this.List[this.Endpoint.tail].next = myKey
+			// this.Endpoint.tail = myKey;
 		}
 
 		//push job to query
@@ -71,8 +73,29 @@ class Query{
 
 				}else{
 
-					this.Endpoint.head = key;
+					//繼續找previous key
+					// this.Endpoint.head = key;
+					// this.Flags[i].last = key;
+					let findPreviousKey = ( index ) => {
+
+						if(this.Flags[index].previous)
+							return this.Flags[index].previous;
+
+						if( index > 0 )
+							findPreviousKey( index - 1  );
+						else
+							return false;
+					};
+
+					let previousKey = findPreviousKey( i - 1 );
+
+					if(previousKey)
+						this.List[previous].next = key;
+					else
+						console.log('error, can not found previousKey')
+
 					this.Flags[i].last = key;
+
 				}
 
 				break;
@@ -81,10 +104,10 @@ class Query{
 
 			}
 
-			if( i+2 < this.Flags.length ){
-				this.Flags[i+1].previous = key;
-			}else{
 
+			//previous key
+			if( i + 2 < this.Flags.length ){
+				this.Flags[i+1].previous = key;
 			}
 		};
 	}
