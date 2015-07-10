@@ -9,109 +9,98 @@ class Query{
 		this.Endpoint = { head : '', tail : '', };
 
 
-		//或許該新增自訂旗標的功能
+		//0.0.2或許該新增自訂旗標的功能
 		this.Flags =[
-			{ flagTime : 1000, last : '', previous : '' },
-			{ flagTime : 2000, last : '', previous : '' },
-			{ flagTime : 3000, last : '', previous : '' },
-			{ flagTime : 5000, last : '', previous : '' },
-			{ flagTime : 8000, last : '', previous : '' },
-			{ flagTime : 13000, last : '', previous : '' }, ];
+			{ flagTime : 500, last : '', },
+			{ flagTime : 1000, last : '', },
+			{ flagTime : 1500, last : '', },
+			{ flagTime : 2000, last : '', },
+			{ flagTime : 2500, last : '', },
+			{ flagTime : 3000, last : '', }, ];
 	}
 
 	add( job ){
-		//set key id
+		//set id
 		let d = new Date();
-		let myKey = d.getTime() * Math.random();;
+		let myKey = d.getTime() * Math.random();
 
+		//push job to query
+		this.List[myKey] = {
+			timeOut : job.timeOut,
+			callback : job.callback,
+			next : '',
+			previous : '',
+		};
+
+		//router
 		if( ! this.Endpoint.head ){
 
 			//init Endpoint
 			this.Endpoint.head = myKey;
 			this.Endpoint.tail = myKey;
 
-			//init Flags
-			//不能這樣處理, 這樣會導致後面要更新previos key的時候不知道誰前誰後
-
-			// this.Flags.map(function(info, index){
-			// 	if(index != 0 && info.flagTime > job.timeOut )
-			// 		return info.previous = myKey;
-			// });
-
 		}else{
 
-			this.router( myKey, job.timeOut );
+			this.router( myKey );
 
-			//這邊有問題 需要改
-			// this.List[this.Endpoint.tail].next = myKey
-			// this.Endpoint.tail = myKey;
 		}
 
-		//push job to query
-		this.List[myKey] = {
-			timeOut : job.timeOut,
-			todo : job.todo,
-			next : job.next, };
 
 	}
 
-	router( key, timeOut){
+	router( key ){
+
+		let current = this.List[key];
 
 		for (var i = this.Flags.length - 1; i >= 0; i--) {
 
-			if( this.Flags[i].flagTime == timeOut ){
 
-				if( this.Flags[i].last ){
 
-					this.List[this.Flags[i].last].next = key;
-					this.Flags[i].last = key;
+			if( this.Flags[i].flagTime == current.timeOut ){
 
-				}else if( this.Flags[i].previous ){
+				let findLastKey = ( index ) => {
 
-					this.List[this.Flags[i].previous].next = key;
-					this.Flags[i].last = key;
+					if( this.Flags[index].last )
+						return this.Flags[index].last;
+
+					else if ( index > 0 )
+						return findLastKey( index - 1 );
+
+					else
+						return this.Endpoint.head;
+				};
+
+				let lastKey = findLastKey(i);
+
+				let last = this.List[lastKey];
+
+				if( last.timeOut > current.timeOut ){
+
+					this.Endpoint.head = key;
+					current.next = lastKey;
+					last.previous = key;
 
 				}else{
 
-					//繼續找previous key
-					let findPreviousKey = ( index ) => {
+					//link list
+					current.next = last.next;
+					current.previous = lastKey;
 
-						if(this.Flags[index].previous)
-							return this.Flags[index].previous;
+					last.next = key;
 
-						if( index > 0 )
-							findPreviousKey( index - 1  );
-						else
-							return false;
-					};
-
-					let previousKey = findPreviousKey( i - 1 );
-
-					if(previousKey)
-						this.List[previous].next = key;
+					if(current.next)
+						this.List[ current.next ].previous = key;
 					else
-						this.Endpoint.head = key;
-
-					this.Flags[i].last = key;
+						this.Endpoint.tail = key;
 
 				}
 
 				break;
 
-			}else if( this.Flags[i].flagTime < timeOut ){
-
-			}
-
-
-			//previous key
-			if( i + 2 < this.Flags.length ){
-				this.Flags[i+1].previous = key;
+			}else if ( this.Flags[i].flagTime < current.timeOut ){
+				i--;
 			}
 		};
-	}
-
-	whoIsLastOne(){
-
 	}
 
 	show(){
@@ -123,22 +112,6 @@ class Query{
 		console.log('Flags data ', this.Flags);
 	}
 
-	// read(){
-	// 	this.readRecursive(this.Keys.first);
-	// }
-
-	// readRecursive( key ){
-
-	// 	console.log(key, this.List[key].job.timeout);
-
-	// 	if( this.List[key].job.next ){
-	// 		this.readRecursive(this.List[key].job.next);
-	// 	}else{
-	// 		console.log('--FINISH--');
-	// 		return;
-	// 	}
-	// }
-
 }
 
 class Job{
@@ -146,14 +119,15 @@ class Job{
 	//並沒有相對可用來設定的func
 	// constructor(){
 	// 	this.timeOut = 0;
-	// 	this.todo;
+	// 	this.callback;
 	// 	this.next = '';
 	// }
 
 	constructor(time, func){
 		this.timeOut = time;
-		this.todo = func;
-		this.next = '';
+		// this.next = '';
+		// this.previous = '';
+		this.callback = func;
 	}
 }
 
