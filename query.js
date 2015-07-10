@@ -5,6 +5,9 @@ class TimeQuery{
 
 	//init
 	constructor(){
+
+		this.engin;
+
 		this.List = {};
 		this.Endpoint = { head : '', tail : '', };
 
@@ -184,6 +187,7 @@ class TimeQuery{
 
 			}else{
 
+				clearInterval(this.engin);
 				console.log('finish');
 				return false;
 			}
@@ -201,7 +205,9 @@ class TimeQuery{
 		if( time == 0 )
 			current = this.List[this.Endpoint.head];
 
-		setInterval( () => {
+		this.engin = setInterval( () => {
+
+			//console.log('tick');
 
 			current = this.do( current, time );
 
