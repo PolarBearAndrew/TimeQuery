@@ -15,7 +15,7 @@ babel-node demo.js
 var TimeQuery = require("./timeQuery.js");
 ```
 
-(2) New a query 
+(2) New a query
 
 ```
 var myTimeQuery = new TimeQuery.Query();
@@ -27,20 +27,20 @@ var myTimeQuery = new TimeQuery.Query();
 var Job = TimeQuery.Job;
 ```
 
-(4) Add a job in query.  
+(4) Add a job in query.
 
 ```
 // new Job( timeOut, callback )
 myTimeQuery.add( new Job( 3000, () => console.log('job 1') ) );
 ```
 
-(5) Start time engin, 
+(5) Start time engin,
 
 ```
-myTimeQuery.start(); 
+myTimeQuery.start();
 ```
-or
+or you want to see the time ticks
 
 ```
-myTimeQuery.start(1); //show ticks
+myTimeQuery.start(1); //show ticks, 100ms per each
 ```
