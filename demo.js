@@ -20,7 +20,7 @@ myTimeQuery.add( new Job( 2500, () => console.log('job 5') ) );
 myTimeQuery.add( new Job( 5000, () => console.log('job 7') ) );
 
 //without tick
-myTimeQuery.start(0);
+myTimeQuery.start();
 
 //see the tick
 // myTimeQuery.start(1);

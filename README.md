@@ -1,5 +1,7 @@
 # TimeQuery
-A time query for node.js
+A time query for node.js.
+
+If you need to use a lot of 'setTimeout' function. Use TimeQuery to reduce your server's load. TimeQuery only need one 'setInterval' function to imitate all 'setTimeout'.
 
 How to start demo, you can see a simple demo
 
@@ -25,8 +27,20 @@ var myTimeQuery = new TimeQuery.Query();
 var Job = TimeQuery.Job;
 ```
 
-(4) Add a job in query
+(4) Add a job in query.  
 
 ```
-myTimeQuery.add( new Job( 3000, () => console.log('job 1'); ) );
+// new Job( timeOut, callback )
+myTimeQuery.add( new Job( 3000, () => console.log('job 1') ) );
+```
+
+(5) Start time engin, 
+
+```
+myTimeQuery.start(); 
+```
+or
+
+```
+myTimeQuery.start(1); //show ticks
 ```
