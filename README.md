@@ -46,4 +46,4 @@ or you want to see the time ticks
 myTimeQuery.start(1); //show ticks, 100ms per each
 ```
 
-And than you will see the job will working on the time you want.
+And than you will see the job working on the time you want.
