@@ -1,5 +1,5 @@
-# TimeQuery
-A time query for node.js.
+# TimeQueue
+A time queue for node.js.
 
 If you need to use a lot of 'setTimeout' function. Use TimeQuery to reduce your server's load. TimeQuery only need one 'setInterval' function to imitate all 'setTimeout'.
 
@@ -16,10 +16,10 @@ babel-node demo.js
 var TimeQuery = require("./timeQuery.js");
 ```
 
-(2) New a query
+(2) New a queue
 
 ```
-var myTimeQuery = new TimeQuery.Query();
+var myTimeQuery = new TimeQuery.queue();
 ```
 
 (3) Get the job class
@@ -28,7 +28,7 @@ var myTimeQuery = new TimeQuery.Query();
 var Job = TimeQuery.Job;
 ```
 
-(4) Add a job in query.
+(4) Add a job in queue.
 
 ```
 // new Job( timeOut, callback )
