@@ -1,5 +1,5 @@
 
-class Query{
+class Queue{
 
 	//init
 	constructor(){
@@ -25,7 +25,7 @@ class Query{
 		let d = new Date();
 		let myKey = d.getTime() * Math.random();
 
-		//push job to query
+		//push job to Queue
 		this.List[myKey] = {
 			timeOut : job.timeOut,
 			callback : job.callback,
@@ -142,7 +142,7 @@ class Query{
 
 	//using in debug
 	showAllData(){
-		console.log('Query data', this.List);
+		console.log('Queue data', this.List);
 		console.log('Endpoint data ', this.Endpoint);
 		console.log('Flags data ', this.Flags);
 	}
@@ -233,4 +233,4 @@ class Job{
 	}
 }
 
-module.exports ={ Query, Job };
+module.exports ={ Queue, Job };
