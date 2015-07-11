@@ -7,34 +7,34 @@ class Queue{
 		this.engin;
 
 		this.List = {};
-		this.Endpoint = { head : '', tail : '', };
-
+		this.Endpoint = { head : null, tail : null, };
+		this.key = 0;
 
 		//0.0.2或許該新增自訂旗標的功能
 		this.Flags =[
-			{ flagTime : 500, last : '', },
-			{ flagTime : 1000, last : '', },
-			{ flagTime : 1500, last : '', },
-			{ flagTime : 2000, last : '', },
-			{ flagTime : 2500, last : '', },
-			{ flagTime : 3000, last : '', }, ];
+			{ flagTime : 500, last : null },
+			{ flagTime : 1000, last : null },
+			{ flagTime : 1500, last : null },
+			{ flagTime : 2000, last : null },
+			{ flagTime : 2500, last : null },
+			{ flagTime : 3000, last : null }, ];
 	}
 
 	add( job ){
 		//set id
 		let d = new Date();
-		let myKey = d.getTime() * Math.random();
+		let myKey = this.key++;
 
 		//push job to Queue
 		this.List[myKey] = {
 			timeOut : job.timeOut,
 			callback : job.callback,
-			next : '',
-			previous : '',
+			next : null,
+			previous : null
 		};
 
 		//router
-		if( ! this.Endpoint.head ){
+		if( this.Endpoint.head === null ){
 
 			//init Endpoint
 			this.Endpoint.head = myKey;
@@ -51,7 +51,7 @@ class Queue{
 
 	findLastKey(index){
 
-		if( this.Flags[index].last )
+		if( this.Flags[index].last !== null)
 			return this.Flags[index].last;
 
 		else if ( index > 0 )
@@ -92,7 +92,7 @@ class Queue{
 
 					last.next = key;
 
-					if(current.next)
+					if(current.next !== null)
 						this.List[ current.next ].previous = key;
 					else
 						this.Endpoint.tail = key;
@@ -110,7 +110,7 @@ class Queue{
 
 				let findPosition = ( k ) => {
 
-					if( ! this.List[k].next)
+					if( this.List[k].next === null)
 						return this.Endpoint.tail;
 
 					else if( this.List[k].timeOut > current.timeOut )
@@ -129,7 +129,7 @@ class Queue{
 
 				last.next = key;
 
-				if(current.next)
+				if(current.next !== null)
 					this.List[ current.next ].previous = key;
 				else
 					this.Endpoint.tail = key;
@@ -160,7 +160,7 @@ class Queue{
 
 				data.push( this.List[key] );
 
-				if( this.List[key].next )
+				if( this.List[key].next !== null )
 					readList( this.List[key].next );
 				else
 					return;
@@ -178,7 +178,7 @@ class Queue{
 
 			current.callback();
 
-			if( current.next ){
+			if( current.next !== null){
 
 				current = this.List[ current.next ];
 				return this.do( current, now );
